@@ -12,7 +12,7 @@ OUTPUT_FILE = "troop_movements.csv"
 
 def choose_a_side(home_world):
     """
-    Randomly choose an empire or resistance side based on the likelihood 
+    Randomly choose an empire or resistance side based on the likelihood
     that someone from that world would join the rebel alliance.
     Args:
         home_world (dict): The home world data for the character.
@@ -36,8 +36,16 @@ for i in range(1, NUM_ROWS + 1):
     timestamp = datetime.now() - timedelta(seconds=i)
     unit_id = i
     unit_type = random.choice(
-        ["stormtrooper", "tie_fighter", "at-st", "x-wing",
-            "resistance_soldier", "at-at", "tie_silencer", "unknown"]
+        [
+            "stormtrooper",
+            "tie_fighter",
+            "at-st",
+            "x-wing",
+            "resistance_soldier",
+            "at-at",
+            "tie_silencer",
+            "unknown",
+        ]
     )
     location_x = random.randint(1, 10)
     location_y = random.randint(1, 10)
@@ -69,8 +77,17 @@ for i in range(1, NUM_ROWS + 1):
 with open(OUTPUT_FILE, "w", newline="") as file:
     writer = csv.writer(file)
     writer.writerow(
-        ["timestamp", "unit_id", "unit_type", "empire_or_resistance", "location_x", "location_y", "destination_x",
-         "destination_y", "homeworld"]
+        [
+            "timestamp",
+            "unit_id",
+            "unit_type",
+            "empire_or_resistance",
+            "location_x",
+            "location_y",
+            "destination_x",
+            "destination_y",
+            "homeworld",
+        ]
     )
     writer.writerows(data_rows)
 
