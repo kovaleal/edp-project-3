@@ -1,5 +1,4 @@
 from flask import Flask, request, jsonify, abort
-import json
 import pickle
 import pandas as pd
 
@@ -11,20 +10,20 @@ with open('trained_model.pkl', 'rb') as file:
 
 @app.route('/api/predict', methods=['POST'])
 def predict():
-    try:
-        # Import column names
-        filename = 'troop_movements.csv'
-        data = pd.read_csv(filename)
-        df = pd.DataFrame(data)
-        df = df[['unit_type', 'homeworld']]
-        df = pd.get_dummies(df)
-        columns = df.columns
-        df = pd.DataFrame(columns=columns)
+    # Import column names (encoded)
+    filename = 'troop_movements.csv'
+    data = pd.read_csv(filename)
+    df = pd.DataFrame(data)
+    df = df[['unit_type', 'homeworld']]
+    df = pd.get_dummies(df)
+    columns = df.columns
+    df = pd.DataFrame(columns=columns)
 
+    try:
         # Get request data
         data = request.get_json(force=True)
 
-         # Ensure the data is a list (even if it's just one dictionary)
+         # Ensure the data is a list
         if isinstance(data, dict):
             data = [data]
 
@@ -35,8 +34,7 @@ def predict():
         print(df)
 
         # Make a prediction
-        X_enc = df
-        prediction = model.predict(X_enc)
+        prediction = model.predict(df)
 
         # Return the prediction
         return jsonify(prediction.tolist())
